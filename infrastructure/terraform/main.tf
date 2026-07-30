@@ -111,6 +111,12 @@ resource "azurerm_linux_virtual_machine" "main" {
     public_key = file(var.ssh_public_key_path)
   }
 
+  custom_data = base64encode(
+    templatefile("../../cloud-init.yaml.tpl", {
+      admin_username = var.admin_username
+    })
+  )
+
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "StandardSSD_LRS"
