@@ -3,19 +3,19 @@ variable "location" {
 }
 
 variable "resource_group_name" {
-  default = "terraform-azure-dotnet-demo-rg"
+  default = "terraform-azure-dotnet-rg"
 }
 
 variable "virtual_network_name" {
-  default = "terraform-demo-vnet"
+  default = "terraform-azure-vnet"
 }
 
 variable "subnet_name" {
-  default = "terraform-demo-subnet"
+  default = "terraform-azure-subnet"
 }
 
 variable "network_security_group_name" {
-  default = "terraform-demo-nsg"
+  default = "terraform-azure-nsg"
 }
 
 variable "ssh_public_key_path" {
