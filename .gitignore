@@ -485,6 +485,7 @@ $RECYCLE.BIN/
 .terraform/
 *.tfstate
 *.tfstate.*
+*.tfvars
 crash.log
 
 # Azure credentials / secrets
