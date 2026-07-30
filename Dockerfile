@@ -2,11 +2,13 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 
 WORKDIR /src
 
-COPY Web.csproj .
-RUN dotnet restore
+COPY src/Web/Web.csproj src/Web/
+RUN dotnet restore src/Web/Web.csproj
 
 COPY . .
-RUN dotnet publish -c Release -o /app/publish
+
+WORKDIR /src/src/Web
+RUN dotnet publish Web.csproj -c Release -o /app/publish
 
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0

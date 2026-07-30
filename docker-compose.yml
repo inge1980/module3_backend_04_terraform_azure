@@ -1,7 +1,7 @@
 services:
   api:
     build:
-      context: ./src/Web
+      context: ./
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
