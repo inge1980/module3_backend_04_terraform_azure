@@ -22,3 +22,15 @@ variable "ssh_public_key_path" {
   description = "Path to SSH public key"
   type        = string
 }
+
+variable "vm_name" {
+  default = "terraform-azure-vm"
+}
+
+variable "admin_username" {
+  default = "azureuser"
+}
+
+variable "vm_size" {
+  default = "Standard_B2ats_v2"
+}
