@@ -5,3 +5,7 @@ output "vm_public_ip" {
 output "ssh_command" {
   value = "ssh ${var.admin_username}@${azurerm_public_ip.main.ip_address}"
 }
+
+output "container_registry_login_server" {
+  value = azurerm_container_registry.main.login_server
+}

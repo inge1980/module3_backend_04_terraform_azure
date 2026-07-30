@@ -34,3 +34,7 @@ variable "admin_username" {
 variable "vm_size" {
   default = "Standard_B2ats_v2"
 }
+
+variable "container_registry_name" {
+  default = "terraformazuredotnetacr"
+}
