@@ -1,3 +1,6 @@
+# Deployment flow:
+# GitHub Actions -> SSH -> Azure VM -> Managed Identity -> ACR -> Docker Compose
+
 name: Build and Push Docker Image
 
 on:
@@ -19,7 +22,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-
+      # Logging github actions runner into Azure using OIDC and GitHub repository variables
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -27,24 +30,26 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
-
+      # Logging github actions runner into Azure Container Registry
       - name: Login to Azure Container Registry
         run: |
           az acr login \
             --name ${{ vars.ACR_NAME }}
 
-
+      # Building Docker image to Azure Container Registry
       - name: Build Docker image
         run: |
           docker build \
             -t ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.IMAGE_NAME }}:${{ vars.IMAGE_TAG }} \
             .
 
+      # Pushing Docker image to Azure Container Registry
       - name: Push Docker image
         run: |
           docker push \
             ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.IMAGE_NAME }}:${{ vars.IMAGE_TAG }}
 
+      # Deploying Docker image to Azure VM using SSH and Docker Compose
       - name: Deploy to VM
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -52,7 +57,56 @@ jobs:
           username: ${{ vars.AZURE_VM_USERNAME }}
           key: ${{ secrets.VM_SSH_PRIVATE_KEY }}
           script: |
-            cd /home/${{ vars.AZURE_VM_USERNAME }}
+
+            # Create application directory on VM
+            # Terraform provisions infrastructure only.
+            # Application deployment is handled by GitHub Actions.
+
+            mkdir -p /home/${{ vars.AZURE_VM_USERNAME }}/app
+            cd /home/${{ vars.AZURE_VM_USERNAME }}/app
+
+
+            # Authenticate the VM against Azure using Managed Identity.
+            # No Azure credentials are stored in GitHub.
+
+            az login --identity
+
+
+            # Authenticate Docker against Azure Container Registry.
+            # Uses the VM Managed Identity with AcrPull permissions.
+
+            az acr login --name ${{ vars.ACR_NAME }}
+
+
+            # Create environment configuration used by Docker Compose.
+            # Values are injected from GitHub repository variables.
+            
+            cat > .env <<EOF
+            ACR_LOGIN_SERVER=${{ vars.ACR_LOGIN_SERVER }}
+            IMAGE_NAME=${{ vars.IMAGE_NAME }}
+            IMAGE_TAG=${{ vars.IMAGE_TAG }}
+            EOF
+
+
+            # Generate Docker Compose configuration on the VM.
+            # The image reference is resolved from the .env file at runtime.
+
+            cat > docker-compose.yml <<EOF
+            services:
+              api:
+                image: \${ACR_LOGIN_SERVER}/\${IMAGE_NAME}:\${IMAGE_TAG}
+                restart: unless-stopped
+                ports:
+                  - "8080:8080"
+            EOF
+
+
+            # Pull the latest image and restart the application.
+
             docker compose pull
             docker compose up -d
+
+
+            # Verify that the container is running.
+
             docker ps
