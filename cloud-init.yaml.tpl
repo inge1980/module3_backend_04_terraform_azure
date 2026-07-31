@@ -17,6 +17,12 @@ runcmd:
   # Allow ${admin_username} to run docker without sudo
   - usermod -aG docker ${admin_username}
 
+  # Create application directory
+  - mkdir -p /home/${admin_username}/app
+
+  # Set ownership
+  - chown -R ${admin_username}:${admin_username} /home/${admin_username}/app
+
   # Verify installations
   - docker --version
   - docker compose version

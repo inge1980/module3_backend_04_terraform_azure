@@ -31,17 +31,30 @@ jobs:
       - name: Login to Azure Container Registry
         run: |
           az acr login \
-            --name terraformazuredotnetacr
+            --name ${{ vars.ACR_NAME }}
 
 
       - name: Build Docker image
         run: |
           docker build \
-            -t ${{ vars.ACR_LOGIN_SERVER }}/terraform-azure-dotnet:latest \
+            -t ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.IMAGE_NAME }}:${{ vars.IMAGE_TAG }} \
             .
-
 
       - name: Push Docker image
         run: |
           docker push \
-            ${{ vars.ACR_LOGIN_SERVER }}/terraform-azure-dotnet:latest
+            ${{ vars.ACR_LOGIN_SERVER }}/${{ vars.IMAGE_NAME }}:${{ vars.IMAGE_TAG }}
+
+      - name: Deploy to VM
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ vars.VM_HOST }}
+          username: ${{ vars.AZURE_VM_USERNAME }}
+          key: ${{ secrets.VM_SSH_PRIVATE_KEY }}
+          script: |
+            az login --identity
+            az acr login --name ${{ vars.ACR_NAME }}
+            cd /home/${{ vars.AZURE_VM_USERNAME }}
+            docker compose pull
+            docker compose up -d
+            docker ps
