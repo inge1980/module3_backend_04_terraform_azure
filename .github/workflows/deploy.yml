@@ -110,3 +110,4 @@ jobs:
             # Verify that the container is running.
 
             docker ps
+            
