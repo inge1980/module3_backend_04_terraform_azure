@@ -12,3 +12,12 @@ Demo project showing:
 
 ```bash
 dotnet run --project ./src/Web
+
+## Github / Azure
+
+Azure authentication uses GitHub Actions OIDC.
+Required repository variables:
+- AZURE_CLIENT_ID
+- AZURE_TENANT_ID
+- AZURE_SUBSCRIPTION_ID
+- ACR_LOGIN_SERVER

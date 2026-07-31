@@ -1,0 +1,47 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-push:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+
+      - name: Login to Azure Container Registry
+        run: |
+          az acr login \
+            --name terraformazuredotnetacr
+
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t ${{ vars.ACR_LOGIN_SERVER }}/terraform-azure-dotnet:latest \
+            .
+
+
+      - name: Push Docker image
+        run: |
+          docker push \
+            ${{ vars.ACR_LOGIN_SERVER }}/terraform-azure-dotnet:latest
