@@ -8,6 +8,10 @@ packages:
   - docker-compose-v2
   - git
   - curl
+  - ca-certificates
+  - apt-transport-https
+  - lsb-release
+  - gnupg
 
 runcmd:
   # Enable and start Docker
@@ -26,3 +30,6 @@ runcmd:
   # Verify installations
   - docker --version
   - docker compose version
+
+  # Install Azure CLI for testing purposes
+  - curl -sL https://aka.ms/InstallAzureCLIDeb | bash

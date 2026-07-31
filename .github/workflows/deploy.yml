@@ -52,8 +52,6 @@ jobs:
           username: ${{ vars.AZURE_VM_USERNAME }}
           key: ${{ secrets.VM_SSH_PRIVATE_KEY }}
           script: |
-            az login --identity
-            az acr login --name ${{ vars.ACR_NAME }}
             cd /home/${{ vars.AZURE_VM_USERNAME }}
             docker compose pull
             docker compose up -d
