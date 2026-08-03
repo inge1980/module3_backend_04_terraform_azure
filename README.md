@@ -49,22 +49,22 @@ The Terraform deployment creates:
 
 Initialize:
 
-```Markdown
+```Shell
 terraform init
 ```
 
 Preview changes:
-```Markdown
+```HCL
 terraform plan
 ```
 
 Deploy infrastructure:
-```Markdown
+```YAML
 terraform apply
 ```
 
 Destroy:
-```Markdown
+```YAML
 terraform destroy
 ```
 
