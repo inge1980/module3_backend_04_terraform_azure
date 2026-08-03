@@ -49,22 +49,22 @@ The Terraform deployment creates:
 
 Initialize:
 
-```bash
+```Markdown
 terraform init
 ```
 
 Preview changes:
-```bash
+```Markdown
 terraform plan
 ```
 
 Deploy infrastructure:
-```bash
+```Markdown
 terraform apply
 ```
 
 Destroy:
-```bash
+```Markdown
 terraform destroy
 ```
 
