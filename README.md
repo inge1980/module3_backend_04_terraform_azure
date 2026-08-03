@@ -107,7 +107,7 @@ Add these under:
 
 Add these under:
 
-`Settings ? Secrets and variables ? Actions ? Secrets`
+`Settings --> Secrets and variables --> Actions --> Secrets`
 
 | Secret | Description |
 |---|---|
@@ -120,7 +120,7 @@ Add these under:
 
 ## Azure VM configuration
 
-The VM requires a `.env` file next to `docker-compose.yml`:
+During deployment, GitHub Actions creates the `.env` file and `docker-compose.yml` on the VM.
 
 ```env
 ACR_LOGIN_SERVER=nameofazurecontainerregistryloginserver.azurecr.io
