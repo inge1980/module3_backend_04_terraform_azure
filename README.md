@@ -13,12 +13,12 @@ Demo project showing:
 
 Run directly:
 
-```YAML
+```env
 dotnet run --project ./src/Web
 ```
 
 Or using Docker:
-```YAML
+```env
 docker build -t <IMAGE_NAME> .
 docker run -p 8080:8080 <IMAGE_NAME>
 ```
@@ -49,12 +49,12 @@ The Terraform deployment creates:
 
 Initialize:
 
-```Shell
+```YAML
 terraform init
 ```
 
 Preview changes:
-```HCL
+```YAML
 terraform plan
 ```
 
