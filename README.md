@@ -13,12 +13,12 @@ Demo project showing:
 
 Run directly:
 
-```env
+```YAML
 dotnet run --project ./src/Web
 ```
 
 Or using Docker:
-```env
+```YAML
 docker build -t <IMAGE_NAME> .
 docker run -p 8080:8080 <IMAGE_NAME>
 ```
