@@ -90,7 +90,7 @@ The GitHub Actions workflow requires the following repository variables and secr
 
 Add these under:
 
-`Settings ? Secrets and variables ? Actions ? Variables`
+`Settings --> Secrets and variables --> Actions --> Variables`
 
 | Variable | Description | Example |
 |---|---|---|
