@@ -13,14 +13,18 @@ Demo project showing:
 
 Run directly:
 
-```YAML
+```bash
+
 dotnet run --project ./src/Web
+
 ```
 
 Or using Docker:
-```YAML
+```bash
+
 docker build -t <IMAGE_NAME> .
 docker run -p 8080:8080 <IMAGE_NAME>
+
 ```
 
 ## Infrastructure
@@ -49,23 +53,31 @@ The Terraform deployment creates:
 
 Initialize:
 
-```YAML
+```bash
+
 terraform init
+
 ```
 
 Preview changes:
-```YAML
+```bash
+
 terraform plan
+
 ```
 
 Deploy infrastructure:
-```YAML
+```bash
+
 terraform apply
+
 ```
 
 Destroy:
-```YAML
+```bash
+
 terraform destroy
+
 ```
 
 ## Deployment
